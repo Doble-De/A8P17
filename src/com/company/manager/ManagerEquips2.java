@@ -190,11 +190,7 @@ public class ManagerEquips2 {
     }
 
     public static void esborrarEquip(int id) {
-        for (int i = 0; i < equips.length; i++) {
-            if (equips[i] != null && equips[i].id == id) {
-                equips[i] = null;
-            }
-        }
+
     }
 
     public static int obtenirUltimIdEquip() throws IOException {

@@ -6,8 +6,10 @@ import com.company.view.widget.LectorTeclat;
 import com.company.view.widget.Missatge;
 import com.company.view.widget.WidgetEquips;
 
+import java.io.IOException;
+
 public class PantallaModificarEquip {
-    public static void mostrar(){
+    public static void mostrar() throws IOException {
         Missatge.mostrarTitol("MARATHON :: Equips :: Modificar");
         while(true){
             String nom = LectorTeclat.llegirString("Nom:");

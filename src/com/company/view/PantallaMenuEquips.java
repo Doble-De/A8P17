@@ -3,8 +3,10 @@ package com.company.view;
 import com.company.view.widget.LectorTeclat;
 import com.company.view.widget.Missatge;
 
+import java.io.IOException;
+
 public class PantallaMenuEquips {
-    public static void mostrar(){
+    public static void mostrar() throws IOException {
         while(true) {
             Missatge.mostrarTitol("MARATHON :: Equips");
             System.out.println("a) Inscriure equip");

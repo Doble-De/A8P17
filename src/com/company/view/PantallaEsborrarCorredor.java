@@ -1,16 +1,15 @@
 package com.company.view;
 
 import com.company.manager.ManagerCorredors;
-import com.company.manager.ManagerEquips;
 import com.company.model.Corredor;
-import com.company.model.Equip;
 import com.company.view.widget.LectorTeclat;
 import com.company.view.widget.Missatge;
 import com.company.view.widget.WidgetCorredors;
-import com.company.view.widget.WidgetEquips;
+
+import java.io.IOException;
 
 public class PantallaEsborrarCorredor {
-    public static void mostrar(){
+    public static void mostrar() throws IOException {
         Missatge.mostrarTitol("MARATHON :: Corredors :: Esborrar");
         while(true){
             String nom = LectorTeclat.llegirString("Nom:");

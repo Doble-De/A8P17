@@ -41,7 +41,7 @@ public class PantallaModificarCorredor {
                     while (true) {
                         String nouNom = LectorTeclat.llegirString("Nou nom:");
                         if ("".equals(nouNom)) {
-                           break;
+                            break;
                         } else if (ManagerCorredors.existeixCorredor(nouNom)) {
                             Missatge.mostrarError("Ja existeix un corredor amb aquest nom");
                         } else {

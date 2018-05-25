@@ -11,27 +11,27 @@ import java.nio.file.StandardCopyOption;
 import java.sql.SQLOutput;
 
 public class ManagerCorredors {
-    static Corredor[] corredors = new Corredor[100];
 
     public static Corredor inscriureCorredor(String nom, Equip equip) throws IOException {
         if(equip == null){
             return null;
         }
 
-
         FileWriter out = new FileWriter("corredores.txt", true);
 
         out.write(nom + ":");
         out.write(String.valueOf(equip.id+":"));
-        out.write(String.valueOf(1000+3)+"\n");
+        out.write((obtenirUltimIdCorredor()+1) + "\n");
 
         out.close();
 
+        Corredor corredor = new Corredor(nom, equip.id);
+        corredor.id = obtenirUltimIdCorredor()+1;
         return null;
     }
 
-    public static Corredor obtenirCorredor(int id){
-        try {
+    public static Corredor obtenirCorredor(int id) throws IOException {
+
             BufferedReader fileReader =  new BufferedReader(new FileReader("corredores.txt"));
             String lineacorredor;
             while ((lineacorredor = fileReader.readLine()) != null){
@@ -40,21 +40,19 @@ public class ManagerCorredors {
                 if( id == Integer.parseInt(partes[2])) {
                     Corredor corredor = new Corredor(partes[0], Integer.parseInt(partes[1]));
                     corredor.id = id;
+                    fileReader.close();
                     return corredor;
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
+        fileReader.close();
         return null;
     }
 
-    public static Corredor[] obtenirLlistaCorredors(){
+    public static Corredor[] obtenirLlistaCorredors() throws IOException {
         Corredor[] corredors = new Corredor[obtenirNumeroCorredors()];
         int contador =0;
 
-        try {
             BufferedReader fileReader =  new BufferedReader(new FileReader("corredores.txt"));
             String lineacorredor;
             while ((lineacorredor = fileReader.readLine()) != null){
@@ -66,23 +64,19 @@ public class ManagerCorredors {
                 contador++;
 
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        fileReader.close();
         return corredors;
     }
 
-  public static Corredor[] buscarCorredorsPerNom(String nom){
-      Corredor[] corredors = new Corredor[obtenirNumeroCorredors()];
+  public static Corredor[] buscarCorredorsPerNom(String nom) throws IOException {
+      Corredor[] corredors = new Corredor[obtenirNumeroCorredorsPerNom(nom)];
         int contador = 0;
-        try {
             BufferedReader fileReader =  new BufferedReader(new FileReader("corredores.txt"));
             String lineacorredor;
             while ((lineacorredor = fileReader.readLine()) != null){
                 String[] partes = lineacorredor.split(":");
 
-                if( nom.equals(partes[0])) {
+                if( partes[0].toLowerCase().contains(nom.toLowerCase())) {
                     Corredor corredor = new Corredor(partes[0], Integer.parseInt(partes[1]));
                     corredor.id = Integer.parseInt(partes[2]);
                     corredors[contador] = corredor;
@@ -90,15 +84,11 @@ public class ManagerCorredors {
                 }
 
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        fileReader.close();
         return corredors;
     }
 
-    public static boolean existeixCorredor(String nom){
-        try {
+    public static boolean existeixCorredor(String nom) throws IOException {
             BufferedReader fileReader =  new BufferedReader(new FileReader("corredores.txt"));
             String lineacorredor;
             while ((lineacorredor = fileReader.readLine()) != null){
@@ -108,18 +98,16 @@ public class ManagerCorredors {
                     return true;
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
+        fileReader.close();
         return false;
     }
 
     public static void modificarNomCorredor(int id, String nouNom) throws IOException {
 
             BufferedReader fileReader =  new BufferedReader(new FileReader("corredores.txt"));
-            String lineacorredor;
             FileWriter out = new FileWriter("corredores2.txt", true);
+            String lineacorredor;
             while ((lineacorredor = fileReader.readLine()) != null) {
                 String[] partes = lineacorredor.split(":");
 
@@ -148,8 +136,8 @@ public class ManagerCorredors {
             return;
         }
         BufferedReader fileReader =  new BufferedReader(new FileReader("corredores.txt"));
-        String lineacorredor;
         FileWriter out = new FileWriter("corredores2.txt", true);
+        String lineacorredor;
         while ((lineacorredor = fileReader.readLine()) != null) {
             String[] partes = lineacorredor.split(":");
 
@@ -168,7 +156,6 @@ public class ManagerCorredors {
         }
         out.close();
         fileReader.close();
-
 
         Files.move(FileSystems.getDefault().getPath("corredores2.txt"), FileSystems.getDefault().getPath("corredores.txt"), StandardCopyOption.REPLACE_EXISTING);
     }
@@ -197,10 +184,9 @@ public class ManagerCorredors {
         Files.move(FileSystems.getDefault().getPath("corredores2.txt"), FileSystems.getDefault().getPath("corredores.txt"), StandardCopyOption.REPLACE_EXISTING);
     }
 
-    public static int obtenirUltimIdCorredor(){
+    public static int obtenirUltimIdCorredor() throws IOException {
 
         int id = 0;
-        try {
             BufferedReader fileReader =  new BufferedReader(new FileReader("corredores.txt"));
             String lineacorredor;
             while ((lineacorredor = fileReader.readLine()) != null){
@@ -210,19 +196,15 @@ public class ManagerCorredors {
                     id = Integer.parseInt(partes[2]);
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        fileReader.close();
         return id;
 
     }
 
-    private static int obtenirNumeroCorredors(){
+    private static int obtenirNumeroCorredors() throws IOException {
 
         int contador =0;
 
-        try {
             BufferedReader fileReader =  new BufferedReader(new FileReader("corredores.txt"));
             String lineacorredor;
             while ((lineacorredor = fileReader.readLine()) != null){
@@ -230,30 +212,24 @@ public class ManagerCorredors {
                 contador++;
 
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
+        fileReader.close();
         return contador;
     }
 
-    public static int obtenirNumeroCorredorsPerNom(String nom){
-        int num = 0;
-        try {
-            BufferedReader fileReader =  new BufferedReader(new FileReader("corredores.txt"));
-            String lineacorredor;
-            while ((lineacorredor = fileReader.readLine()) != null){
-                String[] partes = lineacorredor.split(":");
-
-                if( nom.equals(partes[0])) {
-                   num = Integer.parseInt(partes[2]);
-                }
-
+    public static int obtenirNumeroCorredorsPerNom(String nom) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("corredores.txt"));
+        String c;
+        int count = 0;
+        while ((c = reader.readLine()) != null) {
+            String[] partes = c.split(":");
+            if(partes[0].toLowerCase().contains(nom.toLowerCase())){
+                count++;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        return num;
+        }
+        reader.close();
+        return count;
     }
 }
+

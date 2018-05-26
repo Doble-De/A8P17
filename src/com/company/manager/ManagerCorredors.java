@@ -20,14 +20,13 @@ public class ManagerCorredors {
         FileWriter out = new FileWriter("corredores.txt", true);
 
         out.write(nom + ":");
-        out.write(String.valueOf(equip.id+":"));
+        out.write(equip.id+":");
         out.write((obtenirUltimIdCorredor()+1) + "\n");
-
         out.close();
 
         Corredor corredor = new Corredor(nom, equip.id);
         corredor.id = obtenirUltimIdCorredor()+1;
-        return null;
+        return corredor;
     }
 
     public static Corredor obtenirCorredor(int id) throws IOException {

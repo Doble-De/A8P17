@@ -37,7 +37,9 @@ public class ManagerEquips {
         byteBuffer.putInt(0, id);
         fc.position(length + MAXNOM);
         fc.write(byteBuffer);
-        return null;
+        Equip equip = new Equip(nom);
+        equip.id = id;
+        return equip;
     }
 
     public static Equip obtenirEquip(int id) throws IOException {
